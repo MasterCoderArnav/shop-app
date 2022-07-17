@@ -31,10 +31,11 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.deepOrange,
           fontFamily: 'Lato',
         ),
-        home: ProductOverview(),
+        home: const ProductOverview(),
         routes: {
           productDetails: (context) => const ProductDetail(),
         },
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
