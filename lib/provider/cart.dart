@@ -23,15 +23,25 @@ class Cart with ChangeNotifier {
     return _item.length;
   }
 
+  double get cartTotal {
+    double total = 0.0;
+    _item.forEach((key, value) {
+      total += value.price * value.quantity;
+    });
+    return total;
+  }
+
   void addItem(String productID, double price, String title) {
     if (_item.containsKey(productID)) {
       _item.update(
-          productID,
-          (value) => CartItem(
-              id: value.id,
-              title: value.title,
-              quantity: value.quantity + 1,
-              price: value.price));
+        productID,
+        (value) => CartItem(
+          id: value.id,
+          title: value.title,
+          quantity: value.quantity + 1,
+          price: value.price,
+        ),
+      );
     } else {
       _item.putIfAbsent(
         productID,
@@ -43,6 +53,16 @@ class Cart with ChangeNotifier {
         ),
       );
     }
+    notifyListeners();
+  }
+
+  void removeItem(String productID) {
+    _item.remove(productID);
+    notifyListeners();
+  }
+
+  void clearCart() {
+    _item = {};
     notifyListeners();
   }
 }

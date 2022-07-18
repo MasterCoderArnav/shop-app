@@ -18,7 +18,37 @@ class ProductDetail extends StatelessWidget {
         centerTitle: true,
         elevation: 0.0,
       ),
-      body: Container(),
+      body: Column(
+        children: [
+          Container(
+            height: 300,
+            width: double.infinity,
+            child: Image.network(
+              loadedProduct.imageURL,
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            '\$${loadedProduct.price}',
+            style: const TextStyle(color: Colors.grey, fontSize: 20.0),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              loadedProduct.description,
+              textAlign: TextAlign.center,
+              softWrap: true,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
