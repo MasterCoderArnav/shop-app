@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/utils/routes.dart';
 import 'package:shop/widgets/badge.dart';
+import 'package:shop/widgets/side_drawer.dart';
 import '../provider/cart.dart';
 import '../widgets/product_grid.dart';
 
@@ -64,6 +65,7 @@ class _ProductOverviewState extends State<ProductOverview> {
             ),
           ],
         ),
+        drawer: const SideDrawer(),
         body: ProductGridView(
           showFavourite: _showFavouriteOnly,
         ));
