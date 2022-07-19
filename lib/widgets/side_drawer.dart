@@ -37,6 +37,18 @@ class SideDrawer extends StatelessWidget {
             ),
             title: const Text('Orders'),
           ),
+          const Divider(),
+          ListTile(
+            leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacementNamed(userProductRoute);
+              },
+              icon: const Icon(
+                Icons.edit,
+              ),
+            ),
+            title: const Text('Manage Products'),
+          ),
         ],
       ),
     );
