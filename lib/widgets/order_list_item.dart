@@ -41,23 +41,27 @@ class _OrderListItemState extends State<OrderListItem> {
               child: ListView(
                 padding: const EdgeInsets.all(10),
                 children: widget.order.products
-                    .map((prod) => Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              prod.title,
-                              style: const TextStyle(
-                                  fontSize: 18.0, fontWeight: FontWeight.bold),
+                    .map(
+                      (prod) => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            prod.title,
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Text(
-                              '\$${prod.price * prod.quantity}',
-                              style: const TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.grey,
-                              ),
-                            )
-                          ],
-                        ))
+                          ),
+                          Text(
+                            '\$${prod.price * prod.quantity}',
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.grey,
+                            ),
+                          )
+                        ],
+                      ),
+                    )
                     .toList(),
               ),
             )

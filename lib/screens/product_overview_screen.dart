@@ -4,6 +4,7 @@ import 'package:shop/utils/routes.dart';
 import 'package:shop/widgets/badge.dart';
 import 'package:shop/widgets/side_drawer.dart';
 import '../provider/cart.dart';
+import '../provider/products_provider.dart';
 import '../widgets/product_grid.dart';
 
 enum FilterOptions {
@@ -20,6 +21,34 @@ class ProductOverview extends StatefulWidget {
 
 class _ProductOverviewState extends State<ProductOverview> {
   var _showFavouriteOnly = false;
+  var _init = true;
+  var _isLoading = false;
+  @override
+  void initState() {
+    // Future.delayed(Duration.zero).then(
+    //   (_) {
+    //     final product = Provider.of<Products>(context);
+    //     product.fetchAndSetProducts();
+    //   },
+    // );
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_init) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<Products>(context).fetchAndSetProducts().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _init = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +95,12 @@ class _ProductOverviewState extends State<ProductOverview> {
           ],
         ),
         drawer: const SideDrawer(),
-        body: ProductGridView(
-          showFavourite: _showFavouriteOnly,
-        ));
+        body: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : ProductGridView(
+                showFavourite: _showFavouriteOnly,
+              ));
   }
 }

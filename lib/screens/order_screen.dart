@@ -18,10 +18,11 @@ class OrderScreen extends StatelessWidget {
       ),
       drawer: const SideDrawer(),
       body: ListView.builder(
-          itemCount: orderData.orders.length,
-          itemBuilder: (context, index) {
-            return OrderListItem(order: orderData.orders[index]);
-          }),
+        itemCount: orderData.orders.length,
+        itemBuilder: (context, index) {
+          return OrderListItem(order: orderData.orders[index]);
+        },
+      ),
     );
   }
 }
