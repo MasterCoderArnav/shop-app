@@ -6,10 +6,10 @@ import '../provider/cart.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
+    final prod = Provider.of<Product>(context, listen: false);
     return Consumer<Product>(
       builder: (context, product, child) {
         return ClipRRect(
@@ -20,7 +20,7 @@ class ProductItem extends StatelessWidget {
                 icon: Icon(product.isFavourite
                     ? Icons.favorite
                     : Icons.favorite_border),
-                onPressed: () {
+                onPressed: () async {
                   product.toggleFavouriteStatus();
                 },
                 color: Theme.of(context).accentColor,

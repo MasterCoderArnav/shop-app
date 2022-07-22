@@ -20,7 +20,7 @@ class _OrderListItemState extends State<OrderListItem> {
       child: Column(
         children: [
           ListTile(
-            title: Text('\$${widget.order.price}'),
+            title: Text('\$${widget.order.price.toStringAsFixed(2)}'),
             subtitle: Text(
               DateFormat('dd/MM/yyyy hh:mm').format(widget.order.dt),
             ),
@@ -53,7 +53,7 @@ class _OrderListItemState extends State<OrderListItem> {
                             ),
                           ),
                           Text(
-                            '\$${prod.price * prod.quantity}',
+                            '\$${(prod.price * prod.quantity).toStringAsFixed(2)}',
                             style: const TextStyle(
                               fontSize: 18.0,
                               color: Colors.grey,

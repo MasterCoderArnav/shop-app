@@ -115,6 +115,7 @@ class Products with ChangeNotifier {
       );
       final index = _items.indexWhere((element) => element.id == prod.id);
       _items[index] = prod;
+      notifyListeners();
     } catch (e) {
       rethrow;
     }
@@ -129,15 +130,15 @@ class Products with ChangeNotifier {
           json.decode(response.body) as Map<String, dynamic>;
       final List<Product> loadedProducts = [];
       extractedProduct.forEach((key, value) {
-        loadedProducts.add(
-          Product(
-            description: value['description'],
-            title: value['title'],
-            imageURL: value['imageURL'],
-            price: value['price'],
-            id: key,
-          ),
+        Product p = Product(
+          description: value['description'],
+          title: value['title'],
+          imageURL: value['imageURL'],
+          price: value['price'],
+          id: key,
         );
+        p.isFavourite = value['isFavourite'];
+        loadedProducts.add(p);
       });
       _items = loadedProducts;
       notifyListeners();
@@ -148,21 +149,17 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
     final url = Uri.parse(
-        "https://shop-b4ec7-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id");
+        "https://shop-b4ec7-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json");
     final existingProductIndex =
         _items.indexWhere((element) => element.id == id);
     Product existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
-    http.delete(url).then((value) {
-      if (value.statusCode >= 400) {
-        throw HttpException(message: "Something went wrong");
-      }
+    notifyListeners();
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
       notifyListeners();
-    }).catchError(
-      (onError) {
-        _items.insert(existingProductIndex, existingProduct);
-        notifyListeners();
-      },
-    );
+      throw HttpException(message: "Could not delete product");
+    }
   }
 }
