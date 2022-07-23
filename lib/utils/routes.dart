@@ -4,4 +4,4 @@ const homeRoute = '/home';
 const orderRoute = '/order';
 const userProductRoute = '/userProduct';
 const editProductRoute = '/editProduct';
-const authRoute = '/';
+const authRoute = '/auth';

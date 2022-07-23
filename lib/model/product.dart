@@ -22,17 +22,17 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleFavouriteStatus() async {
+  void toggleFavouriteStatus(String authToken, String userID) async {
     final oldStatus = isFavourite;
     isFavourite = !isFavourite;
     final url = Uri.parse(
-        "https://shop-b4ec7-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json");
+        "https://shop-b4ec7-default-rtdb.asia-southeast1.firebasedatabase.app/userFavourite/$userID/$id.json?auth=$authToken");
     try {
-      final response = await http.patch(
+      final response = await http.put(
         url,
-        body: json.encode({
-          'isFavourite': isFavourite,
-        }),
+        body: json.encode(
+          isFavourite,
+        ),
       );
       if (response.statusCode >= 400) {
         _setFavValue(oldStatus);

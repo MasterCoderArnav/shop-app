@@ -27,33 +27,44 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => Auth(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => Products(),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          create: (_) => Products("", [], ""),
+          update: (context, auth, previousProducts) => Products(
+              auth.token!,
+              previousProducts == null ? [] : previousProducts.items,
+              auth.userID!),
         ),
         ChangeNotifierProvider(
           create: (context) => Cart(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => Order(),
+        ChangeNotifierProxyProvider<Auth, Order>(
+          create: (_) => Order("", []),
+          update: (context, auth, previousOrder) => Order(
+              auth.token!, previousOrder == null ? [] : previousOrder.orders),
         )
       ],
-      child: MaterialApp(
-        title: 'Shop App',
-        theme: ThemeData(
-          primarySwatch: Colors.indigo,
-          accentColor: Colors.deepOrange,
-          fontFamily: 'Lato',
-        ),
-        routes: {
-          authRoute: (context) => const AuthScreen(),
-          homeRoute: (context) => const ProductOverview(),
-          productDetails: (context) => const ProductDetail(),
-          cartScreen: (context) => const CartScreen(),
-          orderRoute: (context) => const OrderScreen(),
-          userProductRoute: (context) => const UserProductScreen(),
-          editProductRoute: (context) => const EditProductScreen(),
+      child: Consumer<Auth>(
+        builder: (context, value, _) {
+          return MaterialApp(
+            title: 'Shop App',
+            theme: ThemeData(
+              primarySwatch: Colors.indigo,
+              accentColor: Colors.deepOrange,
+              fontFamily: 'Lato',
+            ),
+            home: value.isAuth ? const ProductOverview() : const AuthScreen(),
+            routes: {
+              authRoute: (context) => const AuthScreen(),
+              homeRoute: (context) => const ProductOverview(),
+              productDetails: (context) => const ProductDetail(),
+              cartScreen: (context) => const CartScreen(),
+              orderRoute: (context) => const OrderScreen(),
+              userProductRoute: (context) => const UserProductScreen(),
+              editProductRoute: (context) => const EditProductScreen(),
+            },
+            debugShowCheckedModeBanner: false,
+          );
         },
-        debugShowCheckedModeBanner: false,
       ),
     );
   }
