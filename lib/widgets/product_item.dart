@@ -58,15 +58,19 @@ class ProductItem extends StatelessWidget {
               ),
             ),
             child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, productDetails,
-                    arguments: {'product': product.id});
-              },
-              child: Image.network(
-                product.imageURL,
-                fit: BoxFit.cover,
-              ),
-            ),
+                onTap: () {
+                  Navigator.pushNamed(context, productDetails,
+                      arguments: {'product': product.id});
+                },
+                child: Hero(
+                  tag: product.id,
+                  child: FadeInImage(
+                    placeholder: const AssetImage(
+                        'lib/assets/images/product-placeholder.png'),
+                    image: NetworkImage(product.imageURL),
+                    fit: BoxFit.cover,
+                  ),
+                )),
           ),
         );
       },
