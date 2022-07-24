@@ -40,7 +40,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final orderData = Provider.of<Order>(context);
+    final orderData = Provider.of<Order>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Orders'),

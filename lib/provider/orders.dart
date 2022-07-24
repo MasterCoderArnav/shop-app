@@ -66,19 +66,25 @@ class Order with ChangeNotifier {
     final url = Uri.parse(
         "https://shop-b4ec7-default-rtdb.asia-southeast1.firebasedatabase.app/orders/$userID.json?auth=$authToken");
     try {
-      final response = await http.post(url,
-          body: json.encode({
+      final response = await http.post(
+        url,
+        body: json.encode(
+          {
             'price': total,
             'dt': DateTime.now().toIso8601String(),
             'products': cartItem
-                .map((cp) => {
-                      'id': cp.id,
-                      'title': cp.title,
-                      'price': cp.price,
-                      'quantity': cp.quantity
-                    })
+                .map(
+                  (cp) => {
+                    'id': cp.id,
+                    'title': cp.title,
+                    'price': cp.price,
+                    'quantity': cp.quantity
+                  },
+                )
                 .toList(),
-          }));
+          },
+        ),
+      );
       _orders.insert(
         0,
         OrderItem(

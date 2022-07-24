@@ -31,9 +31,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, Products>(
           create: (_) => Products("", [], ""),
           update: (context, auth, previousProducts) => Products(
-              auth.token != null ? auth.token! : "",
-              previousProducts == null ? [] : previousProducts.items,
-              auth.userID != null ? auth.userID! : ""),
+            auth.token != null ? auth.token! : "",
+            previousProducts == null ? [] : previousProducts.items,
+            auth.userID != null ? auth.userID! : "",
+          ),
         ),
         ChangeNotifierProvider(
           create: (context) => Cart(),
@@ -41,9 +42,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, Order>(
           create: (_) => Order("", "", []),
           update: (context, auth, previousOrder) => Order(
-              auth.token != null ? auth.token! : "",
-              auth.userID != null ? auth.userID! : "",
-              previousOrder == null ? [] : previousOrder.orders),
+            auth.token != null ? auth.token! : "",
+            auth.userID != null ? auth.userID! : "",
+            previousOrder == null ? [] : previousOrder.orders,
+          ),
         )
       ],
       child: Consumer<Auth>(

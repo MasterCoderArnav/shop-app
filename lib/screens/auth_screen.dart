@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/model/http_exceptions.dart';
@@ -117,12 +116,20 @@ class _AuthCardState extends State<AuthCard>
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, -1.5),
       end: const Offset(0, 0),
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeIn,
+      ),
+    );
     _slideAnimation.addListener(() {
       setState(() {});
     });
     _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeIn,
+      ),
     );
     super.initState();
   }

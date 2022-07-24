@@ -11,7 +11,7 @@ class CartGridItem extends StatelessWidget {
     return Dismissible(
       key: Key(cartItem.id),
       direction: DismissDirection.endToStart,
-      confirmDismiss: (directiion) {
+      confirmDismiss: (direction) {
         return showDialog(
           context: context,
           builder: (context) {
