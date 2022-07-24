@@ -8,6 +8,7 @@ import 'package:shop/screens/edit_product_screen.dart';
 import 'package:shop/screens/order_screen.dart';
 import 'package:shop/screens/product_detail_screen.dart';
 import 'package:shop/screens/product_overview_screen.dart';
+import 'package:shop/screens/splash_screen.dart';
 import 'package:shop/screens/user_product_screen.dart';
 import 'package:shop/utils/routes.dart';
 import './provider/products_provider.dart';
@@ -30,17 +31,19 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, Products>(
           create: (_) => Products("", [], ""),
           update: (context, auth, previousProducts) => Products(
-              auth.token!,
+              auth.token != null ? auth.token! : "",
               previousProducts == null ? [] : previousProducts.items,
-              auth.userID!),
+              auth.userID != null ? auth.userID! : ""),
         ),
         ChangeNotifierProvider(
           create: (context) => Cart(),
         ),
         ChangeNotifierProxyProvider<Auth, Order>(
-          create: (_) => Order("", []),
+          create: (_) => Order("", "", []),
           update: (context, auth, previousOrder) => Order(
-              auth.token!, previousOrder == null ? [] : previousOrder.orders),
+              auth.token != null ? auth.token! : "",
+              auth.userID != null ? auth.userID! : "",
+              previousOrder == null ? [] : previousOrder.orders),
         )
       ],
       child: Consumer<Auth>(
@@ -52,7 +55,15 @@ class MyApp extends StatelessWidget {
               accentColor: Colors.deepOrange,
               fontFamily: 'Lato',
             ),
-            home: value.isAuth ? const ProductOverview() : const AuthScreen(),
+            home: value.isAuth
+                ? const ProductOverview()
+                : FutureBuilder(
+                    future: value.tryAutoLogin(),
+                    builder: (context, snapshot) =>
+                        snapshot.connectionState == ConnectionState.waiting
+                            ? const SplashScreen()
+                            : const AuthScreen(),
+                  ),
             routes: {
               authRoute: (context) => const AuthScreen(),
               homeRoute: (context) => const ProductOverview(),

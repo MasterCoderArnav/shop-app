@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/provider/auth.dart';
 import 'package:shop/utils/routes.dart';
 
 class SideDrawer extends StatelessWidget {
@@ -6,6 +8,7 @@ class SideDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<Auth>(context, listen: false);
     return Drawer(
       child: Column(
         children: [
@@ -48,6 +51,16 @@ class SideDrawer extends StatelessWidget {
               ),
             ),
             title: const Text('Manage Products'),
+          ),
+          const Divider(),
+          ListTile(
+            leading: IconButton(
+              onPressed: () {
+                auth.logOut();
+              },
+              icon: const Icon(Icons.exit_to_app),
+            ),
+            title: const Text('Logout'),
           ),
         ],
       ),
