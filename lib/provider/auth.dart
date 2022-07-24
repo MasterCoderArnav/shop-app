@@ -6,7 +6,7 @@ import 'package:shop/model/http_exceptions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const params = {
-  'key': 'AIzaSyDLsFXEEsRss38yoCu2b2VoVYpfWIzaw6Q',
+  'key': '',
 };
 
 class Auth with ChangeNotifier {
